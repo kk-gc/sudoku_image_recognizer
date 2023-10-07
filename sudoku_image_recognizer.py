@@ -1,7 +1,10 @@
 import cv2
 import numpy as np
 import pytesseract
-from typing import Optional, Any
+from typing import Optional, Any, Dict, Sequence
+
+from cv2 import UMat
+
 import thresholding
 
 
@@ -19,7 +22,12 @@ class SudokuImageRecognizer:
         self.digits_match = self.get_digits_match()
         self.results = self.get_results()
 
-    def get_contours(self) -> dict:
+    def get_contours(self) -> dict[Any, Sequence[UMat] | UMat]:
+        """
+        Method return contours extracted from
+        all image transformations (thresholding)
+        :return: dict = { transformation_name: contours }
+        """
         _contours = {}
         for threshold_name, threshold_image in self.images_thresholding.items():
             _contours[threshold_name] = cv2.findContours(threshold_image,
