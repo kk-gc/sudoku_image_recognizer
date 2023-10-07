@@ -74,13 +74,18 @@ class SudokuImageRecognizer:
         return _all_digits
 
     def _get_digit(self, image_name: str, cell_coordinates: dict) -> int:
-
+        """
+        Method extracting digit from the given cell
+        :param image_name:
+        :param cell_coordinates:
+        :return: extracted digit or 0 if unsuccessful [int]
+        """
         y0 = cell_coordinates['y0']
         y1 = cell_coordinates['y1']
         x0 = cell_coordinates['x0']
         x1 = cell_coordinates['x1']
 
-        # shrink cropped by 10%:
+        # shrink cropped by 10% to avoid call frame interference
         shrink_ratio = .1
         y0 = int(y0 + shrink_ratio * (y1 - y0))
         y1 = int(y1 - shrink_ratio * (y1 - y0))
