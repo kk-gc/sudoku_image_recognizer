@@ -35,7 +35,14 @@ class SudokuImageRecognizer:
                                                          cv2.CHAIN_APPROX_SIMPLE)[0]
         return _contours
 
-    def get_cells(self) -> dict:
+    def get_cells(self) -> dict[str, list]:
+        """
+        Method is trying to find 9 x 9 = 81 occurrences of contours
+        with the contour area within some pre-defined parameters:
+        maximum_box_area - cell can't be bigger than 1/9 to an image to fit all 9
+        minimum_box_area - arbitrary but to filter big number of 'too small' contours
+        :return: dict = { transformation_name: 81 cells coordinates or [] }
+        """
         _all_cells = {}
         _image_height, _image_width, _ = self.base_image.shape
 
@@ -61,6 +68,9 @@ class SudokuImageRecognizer:
                                    'y1': _ys.max(),
                                    })
 
+            # this double sorting is to have rows in line to the pixel
+            # as they like to be off for one or two, it might (will)
+            # cause a problem with angled images if this is ever implemented
             if len(_cells) == 81:
                 _cells = sorted(_cells, key=lambda x: (x['y0'], x['x0']))
                 for i in range(0, 81, 9):
