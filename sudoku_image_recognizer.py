@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import pytesseract
-from typing import Optional
+from typing import Optional, Any
 import thresholding
 
 
@@ -17,6 +17,7 @@ class SudokuImageRecognizer:
         self.cells = self.get_cells()
         self.digits = self.get_digits()
         self.digits_match = self.get_digits_match()
+        self.results = self.get_results()
 
     def get_contours(self) -> dict:
         _contours = {}
@@ -107,6 +108,21 @@ class SudokuImageRecognizer:
                     _digits_match[digits_name] = False
             return _digits_match
         return None
+
+    def get_results(self) -> dict[int, set]:
+        """
+        Method is comparing all results from `self.digits` and produce
+        dict = { cell_no: extracted_digit(s) }:
+        one extracted_digit(s) -> same result from all transformations of the image, safe to use
+        zero and digit -> some recognition fail, still could use digit, kinda safe
+        two or more digits -> unlikely, but should be analyzed as two (or more) separate cases
+        :return: dict = { cell_no: extracted_digit(s) }
+        """
+        _result = {}
+        if self.digits:
+            for i in range(81):
+                _result[i] = {value[i] for value in self.digits.values()}
+        return _result
 
 
 if __name__ == '__main__':
