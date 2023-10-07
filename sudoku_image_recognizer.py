@@ -97,7 +97,12 @@ class SudokuImageRecognizer:
         except ValueError:
             return 0
 
-    def get_digits_match(self) -> Optional[dict]:
+    def get_digits_match(self) -> Optional[dict[str, bool]]:
+        """
+        If `self.desired_output` string is provided, method check readings from
+        which transformation are matching 100%
+        :return: dict = { transformation_name: bool }
+        """
         if self.desired_output and isinstance(self.desired_output, str):
             _desired_output = [int(x) for x in self.desired_output]
             _digits_match = {}
