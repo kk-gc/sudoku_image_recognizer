@@ -81,7 +81,12 @@ class SudokuImageRecognizer:
 
         return _all_cells
 
-    def get_digits(self) -> dict:
+    def get_digits(self) -> dict[str, list]:
+        """
+        Method is returning extracted digits for all
+        image transformations from `self.cells`
+        :return: dict = { transformation_name: extracted_digits }
+        """
         _all_digits = {}
         for cells_name, cells_data in self.cells.items():
             digits = []
