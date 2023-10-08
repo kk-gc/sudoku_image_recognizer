@@ -1,8 +1,15 @@
 import cv2
+import numpy as np
 from matplotlib import pyplot as plt
 
 
-def thresholding(image, show_results=False) -> dict:
+def thresholding(image: np.array, show_results: bool = False) -> dict[str, np.array]:
+    """
+    Function return dict of transformed images
+    :param image: numpy array of an image to process
+    :param show_results: show all transformations on the screen
+    :return: dict = { threshold_transformation_name: image_as_numpy_array }
+    """
 
     _image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
@@ -23,6 +30,7 @@ def thresholding(image, show_results=False) -> dict:
                                     cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
     }
 
+    # display all transformations on the screen
     if show_results:
         _index = 0
         for title_shown, image_shown in _return.items():
