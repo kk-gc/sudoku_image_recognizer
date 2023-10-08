@@ -11,22 +11,22 @@ def thresholding(image: np.array, show_results: bool = False) -> dict[str, np.ar
     :return: dict = { threshold_transformation_name: image_as_numpy_array }
     """
 
-    _image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    _image_grayscale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     _return = {
         # 'ORIGINAL': image,
-        'GRAYSCALE': _image,
-        'BINARY': cv2.threshold(_image, 127, 255, cv2.THRESH_BINARY)[1],
-        'BINARY_INV': cv2.threshold(_image, 127, 255, cv2.THRESH_BINARY_INV)[1],
-        'TRUNC': cv2.threshold(_image, 127, 255, cv2.THRESH_TRUNC)[1],
-        'TOZERO': cv2.threshold(_image, 127, 255, cv2.THRESH_TOZERO)[1],
-        'TOZERO_INV': cv2.threshold(_image, 127, 255, cv2.THRESH_TOZERO_INV)[1],
-        'ADAPTIVE_MEAN': cv2.adaptiveThreshold(_image, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
+        'GRAYSCALE': _image_grayscale,
+        'BINARY': cv2.threshold(_image_grayscale, 127, 255, cv2.THRESH_BINARY)[1],
+        'BINARY_INV': cv2.threshold(_image_grayscale, 127, 255, cv2.THRESH_BINARY_INV)[1],
+        'TRUNC': cv2.threshold(_image_grayscale, 127, 255, cv2.THRESH_TRUNC)[1],
+        'TOZERO': cv2.threshold(_image_grayscale, 127, 255, cv2.THRESH_TOZERO)[1],
+        'TOZERO_INV': cv2.threshold(_image_grayscale, 127, 255, cv2.THRESH_TOZERO_INV)[1],
+        'ADAPTIVE_MEAN': cv2.adaptiveThreshold(_image_grayscale, 255, cv2.ADAPTIVE_THRESH_MEAN_C,
                                                cv2.THRESH_BINARY, 11, 2),
-        'ADAPTIVE_GAUSSIAN': cv2.adaptiveThreshold(_image, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+        'ADAPTIVE_GAUSSIAN': cv2.adaptiveThreshold(_image_grayscale, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                                                    cv2.THRESH_BINARY, 11, 2),
-        'OTSU': cv2.threshold(_image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
-        'OTSU_GAUSS': cv2.threshold(cv2.GaussianBlur(_image, (5, 5), 0), 0, 255,
+        'OTSU': cv2.threshold(_image_grayscale, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1],
+        'OTSU_GAUSS': cv2.threshold(cv2.GaussianBlur(_image_grayscale, (5, 5), 0), 0, 255,
                                     cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
     }
 
